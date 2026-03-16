@@ -2,7 +2,8 @@
 
 **Title: Intermittent 500 Errors on Task Creation Due to Invalid Timestamp Parsing  
 **Priority: P2
-**Owner: API Engineering
+
+**Owner: Engineering
 
 ## Description
 What should be improved after the immediate incident is resolved?
