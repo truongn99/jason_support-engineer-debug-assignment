@@ -39,7 +39,7 @@ Example log evidence:
 
 13:30 — Tested fix with missing, invalid, and valid timestamps.
 
--14:30 — Verified that task creation succeeds without returning HTTP 500.
+14:30 — Verified that task creation succeeds without returning HTTP 500.
 
 
 ## Root cause
