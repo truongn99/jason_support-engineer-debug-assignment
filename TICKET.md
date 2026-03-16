@@ -1,8 +1,7 @@
 # Follow-up Ticket (Fill in)
 
 **Title: Intermittent 500 Errors on Task Creation Due to Invalid Timestamp Parsing  
-**Priority: P2
-
+**Priority: P2     
 **Owner: Engineering
 
 ## Description

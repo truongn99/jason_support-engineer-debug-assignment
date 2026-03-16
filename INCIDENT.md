@@ -1,9 +1,8 @@
 # Incident Summary (Fill in)
 
 **Title: Intermittent 500 Errors on Task Creation Due to Invalid Timestamp Parsing  
-**Date: 3/13/26
-
-**Severity: Sev-2
+**Date: 3/13/26  
+**Severity: Sev-2  
 
 ## Impact
 - Who/what was impacted? 
