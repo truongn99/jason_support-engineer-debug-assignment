@@ -27,17 +27,17 @@ Example log evidence:
 
 ## Timeline (UTC)
 
--10:05 — Customer report received about intermittent task creation failures.
+10:05 — Customer report received about intermittent task creation failures.
 
--10:15 — Reviewed application logs and identified FormatException during task creation.
+10:15 — Reviewed application logs and identified FormatException during task creation.
 
--11:15 — Confirmed failure occurs when X-Client-Timestamp header is missing.
+11:15 — Confirmed failure occurs when X-Client-Timestamp header is missing.
 
--11:45 — Reproduced issue locally by sending a request without the timestamp header.
+11:45 — Reproduced issue locally by sending a request without the timestamp header.
 
--12:30 — Implemented defensive parsing using DateTime.TryParse.
+12:30 — Implemented defensive parsing using DateTime.TryParse.
 
--13:30 — Tested fix with missing, invalid, and valid timestamps.
+13:30 — Tested fix with missing, invalid, and valid timestamps.
 
 -14:30 — Verified that task creation succeeds without returning HTTP 500.
 
