@@ -38,7 +38,9 @@ public static class TaskEndpoints
                 "CreateTask request UserId={UserId} Title={Title} X-Client-Timestamp present={HasTimestamp} length={Length}",
                 req?.UserId ?? "(null)", req?.Title ?? "(null)", hasTimestamp, clientTimestamp?.Length ?? 0);
 
-            var createdAt = DateTime.Parse(clientTimestamp);
+            var createdAt = DateTime.TryParse(clientTimestamp, out var parsed)
+            ? parsed
+          : DateTime.UtcNow;
 
             if (string.IsNullOrWhiteSpace(req.UserId) || string.IsNullOrWhiteSpace(req.Title))
                 return Results.BadRequest(new { message = "userId and title are required" });

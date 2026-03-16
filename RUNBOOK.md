@@ -1,5 +1,29 @@
 # Runbook — SupportEngineerChallenge
 
+> How to diagnose these issues in production (what to look at, what logs/queries/metrics help — use the structured log lines and sample artifacts as a guide) 
+
+**I would check the logs for something like 
+FormatException
+DateTime.Parse
+
+fail: Microsoft.AspNetCore.Server.Kestrel[13]
+      Connection id "0HNK0PGV633MF", Request id "0HNK0PGV633MF:00000001": An unhandled exception was thrown by the application.
+      System.FormatException: String '' was not recognized as a valid DateTime.
+         at System.DateTimeParse.Parse(ReadOnlySpan`1 s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+         at System.DateTime.Parse(String s)
+         at SupportEngineerChallenge.Api.Endpoints.TaskEndpoints.<>c.<<MapTaskEndpoints>b__0_1>d.MoveNext() in /Users/truonghan/SupportEngineerDebugAssignment/src/SupportEngineerChallenge.Api/Endpoints/TaskEndpoints.cs:line 41
+
+
+> How to verify the fix 
+
+1. Start API
+2. Create task without timestamp header
+3. Confirm response with code http 200 or 201.
+
+
+>Mitigation / rollback plan if the fix regresses 
+Before making the change, I would backup of the file then deploy then roll back file if regression occurs.
+
 > Update this file as part of the exercise.
 
 ## Service overview
