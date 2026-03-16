@@ -5,28 +5,30 @@
 **Severity: Sev-2
 
 ## Impact
-- Who/what was impacted? Some users attempting to create tasks through the API.
+- Who/what was impacted? 
+ Some users attempting to create tasks through the API.
+
 - Symptoms observed by customers/internal users
-* Some tasks creation requests returned HTTP 500 Internal Server Error
-* Issue occurred intermittently and tasks could not be created successfully for affected users
+ There are some tasks creation requests returned HTTP 500 Internal Server Error
+ Issue occurred intermittently and tasks could not be created successfully for affected users
 
 ## Detection
 - How did we learn about this? (customer reports, monitoring, etc.)
-* Customer states that: “Sometimes creating a task fails with a 500.” The issue appears intermittently when submitting a request to the POST /api/tasks endpoint. 
-* * Investigation and found from the production logs keep repeating with the exception below:
+ Customer states that: “Sometimes creating a task fails with a 500.” The issue appears intermittently when submitting a request to the POST /api/tasks endpoint. 
+ Investigation and found from the production logs keep repeating with the exception below:
 Example log evidence:
 
- System.FormatException: String '' was not recognized as a valid DateTime.
+> System.FormatException: String '' was not recognized as a valid DateTime.
 
 ## Timeline (UTC)
 
-10:05 — Customer report received about intermittent task creation failures.
-10:15 — Reviewed application logs and identified FormatException during task creation.
-11:15 — Confirmed failure occurs when X-Client-Timestamp header is missing.
-11:45 — Reproduced issue locally by sending a request without the timestamp header.
-12:30 — Implemented defensive parsing using DateTime.TryParse.
-13:30 — Tested fix with missing, invalid, and valid timestamps.
-14:30 — Verified that task creation succeeds without returning HTTP 500.
+-10:05 — Customer report received about intermittent task creation failures.
+-10:15 — Reviewed application logs and identified FormatException during task creation.
+-11:15 — Confirmed failure occurs when X-Client-Timestamp header is missing.
+-11:45 — Reproduced issue locally by sending a request without the timestamp header.
+-12:30 — Implemented defensive parsing using DateTime.TryParse.
+-13:30 — Tested fix with missing, invalid, and valid timestamps.
+-14:30 — Verified that task creation succeeds without returning HTTP 500.
 
 
 ## Root cause

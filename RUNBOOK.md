@@ -1,30 +1,5 @@
 # Runbook — SupportEngineerChallenge
-
-> How to diagnose these issues in production (what to look at, what logs/queries/metrics help — use the structured log lines and sample artifacts as a guide) 
-
-**I would check the logs for something like 
-FormatException
-DateTime.Parse
-
-fail: Microsoft.AspNetCore.Server.Kestrel[13]
-      Connection id "0HNK0PGV633MF", Request id "0HNK0PGV633MF:00000001": An unhandled exception was thrown by the application.
-      System.FormatException: String '' was not recognized as a valid DateTime.
-         at System.DateTimeParse.Parse(ReadOnlySpan`1 s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
-         at System.DateTime.Parse(String s)
-         at SupportEngineerChallenge.Api.Endpoints.TaskEndpoints.<>c.<<MapTaskEndpoints>b__0_1>d.MoveNext() in /Users/truonghan/SupportEngineerDebugAssignment/src/SupportEngineerChallenge.Api/Endpoints/TaskEndpoints.cs:line 41
-
-
-> How to verify the fix 
-
-1. Start API
-2. Create task without timestamp header
-3. Confirm response with code http 200 or 201.
-
-
->Mitigation / rollback plan if the fix regresses 
-Before making the change, I would backup of the file then deploy then roll back file if regression occurs.
-
-> Update this file as part of the exercise.
+* Operational guide for troubleshooting and maintaining the SupportEngineerChallenge API service.
 
 ## Service overview
 - **Service:** SupportEngineerChallenge.Api
@@ -38,6 +13,8 @@ Before making the change, I would backup of the file then deploy then roll back 
 cd src/SupportEngineerChallenge.Api
 dotnet run
 ```
+The API will start on:
+http://localhost:5000/
 
 **Run tests**
 ```bash
@@ -48,34 +25,59 @@ dotnet test
 - `GET /api/tasks?userId={id}&limit={n}`
 - `POST /api/tasks`
 
-## Using log artifacts
 
-- **Create-task 500:** Inspect `artifacts/sample_api_log.txt` (or production logs). Look for the `CreateTask request` line — `X-Client-Timestamp present=False` or `length=0` indicates missing/invalid header. The stack trace shows `FormatException` at `DateTime.Parse`.
-- **Slow list:** Look for `ListTasks completed` lines with high `elapsedMs` (e.g. `artifacts/sample_slow_list_log.txt`). Correlate `userId` and `limit` with slow requests.
+Diagnosing Issues in Production
+1. Create Task Returns HTTP 500
+Symptoms
 
-## Troubleshooting checklist (starter)
+Customers report that task creation occasionally fails with a 500 error.
 
-### “Create task fails with 500”
-- Check API logs in console.
-- Verify request payload and headers.
-- Look for unhandled exceptions in `POST /api/tasks`.
+What to Check
 
-### “Tasks list is slow”
-- Confirm dataset size (seed can be large).
-- Inspect how the list endpoint fetches and filters data.
-- Review query patterns and database usage.
+Inspect API logs for requests to:
 
-### “Duplicates / wrong order after refresh”
-- Compare API response vs UI rendering.
-- Check the UI state update logic during refresh.
-- Verify how the list is merged and ordered.
+POST /api/tasks
 
-## Verification steps (starter)
-- Create tasks from UI and via Swagger.
-- Refresh tasks repeatedly; confirm no duplicates and ordering is correct.
-- Validate list endpoint returns only requested user's tasks.
+From sample_api_log.txt from artifacts,look for log entry similar to:
 
-## Rollback / mitigation ideas (starter)
-- Roll back to last known good version.
-- Temporarily disable problematic client behavior (feature flag / UI change).
-- Add guardrails (e.g. input validation, error handling) to prevent unhandled exceptions.
+CreateTask request UserId=user-001 Title=Buy groceries X-Client-Timestamp present=False length=0
+
+Followed by a stack trace such as:
+
+System.FormatException: String '' was not recognized as a valid DateTime.
+
+This indicates the X-Client-Timestamp header was missing or invalid.
+
+From my local log found:
+
+> fail: Microsoft.AspNetCore.Server.Kestrel[13]
+      Connection id "0HNK0PGV633MF", Request id "0HNK0PGV633MF:00000001": An unhandled exception was thrown by the application.
+      System.FormatException: String '' was not recognized as a valid DateTime.
+         at System.DateTimeParse.Parse(ReadOnlySpan`1 s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+
+2. Root Cause
+The API attempted to parse the timestamp using:
+
+DateTime.Parse()
+
+If the header value is empty, this throws a FormatException, causing an unhandled exception and returning HTTP 500.
+
+Metrics to Monitor
+
+Helpful production metrics:
+
+API 5xx error rate
+
+POST /api/tasks error rate
+
+Request validation failures
+
+> How to verify the fix 
+
+1. Start API
+2. Create task without timestamp header
+3. Confirm response with code http 200 or 201.
+
+
+>Mitigation / rollback plan if the fix regresses
+- Before making the change, I would backup of the file for the working version and deploy new code change. If the issue is still occuring, we can roll back of the working file.

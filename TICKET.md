@@ -6,7 +6,7 @@
 
 ## Description
 What should be improved after the immediate incident is resolved?
-Production logs show intermittent 500 errors when creating tasks.
+- Production logs show intermittent 500 errors when creating tasks.
 The error occurs when the API attempts to parse the X-Client-Timestamp request header using DateTime.Parse. If the header is missing or empty, the application throws a System.FormatException, resulting in an unhandled exception and HTTP 500 response.
 Example log evidence:
 
@@ -27,6 +27,7 @@ We should improve more detailed logging and monitoring should be implemented to 
 
 ## Notes / context
 - Links to relevant code/areas
+
 File: src/SupportEngineerChallenge.Api/Endpoints/TaskEndpoints.cs
 
 Before
