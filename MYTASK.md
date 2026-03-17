@@ -1,4 +1,4 @@
-Issues confirmed and Fixed:
+## Issues confirmed and Fixed:
 
 Task creation returning HTTP 500
 
@@ -43,22 +43,23 @@ Example request:
 Using:  Post /api/tasks
 
 Body:
-
-`{
+```bash
+{
 
   "userId": "user-001",
 
   "title": "Seeded task 3987 for user-001"
 
-}`
+}
+```
 
 
 
 From the logs, I was able to see the error exception below:
 
 
-
-`fail: Microsoft.AspNetCore.Server.Kestrel[13]
+```bash
+fail: Microsoft.AspNetCore.Server.Kestrel[13]
 
       Connection id "0HNK0PGV633MF", Request id "0HNK0PGV633MF:00000001": An unhandled exception was thrown by the application.
 
@@ -66,8 +67,8 @@ From the logs, I was able to see the error exception below:
 
          at System.DateTimeParse.Parse(ReadOnlySpan`1 s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
 
-         at System.DateTime.Parse(String s)`
-
+         at System.DateTime.Parse(String s)
+```
         
 
 For the task list is slow for some users and duplicated user, I was not able to reproduce the issue on my end. Since I don't have access to production database access or restrict, I would get on a call with customer to check whether the issue was related to the network or database issue or exactly the steps on how to replicate the issue.
@@ -85,18 +86,14 @@ The API throws an exception error code 500 Internal Server error during task cre
 Why it is happening (root cause) 
 
 This is causing the issue:
-
-`System.FormatException: String '' was not recognized as a valid DateTime.
-
-at System.DateTime.Parse(String s)`
-
-
+```bash
+System.FormatException: String '' was not recognized as a valid DateTime.
+at System.DateTime.Parse(String s)
+```
 
 This means DateTime.Parse() is trying to parse an empty string. When the header is missing, the value becomes “” which throws error.
 
-
-
-What you considered / ruled out (short)
+**What you considered / ruled out (short)
 The following potential causes were investigated and ruled out:
 > From the logs clearly show the failure right away before database interaction
 > Invalid JSON
@@ -145,7 +142,5 @@ If I had additional time, I would:
 
 Add automated tests covering missing or invalid headers
 Add database indexes to improve task listing performance
-
-
 Add monitoring/alerting for error rates and latency.
 
