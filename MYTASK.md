@@ -50,13 +50,13 @@ Using:  Post /api/tasks
 
 Body:
 
-{
+`{
 
   "userId": "user-001",
 
   "title": "Seeded task 3987 for user-001"
 
-}
+}`
 
 
 
@@ -64,7 +64,7 @@ From the logs, I was able to see the error exception below:
 
 
 
-fail: Microsoft.AspNetCore.Server.Kestrel[13]
+`fail: Microsoft.AspNetCore.Server.Kestrel[13]
 
       Connection id "0HNK0PGV633MF", Request id "0HNK0PGV633MF:00000001": An unhandled exception was thrown by the application.
 
@@ -72,7 +72,7 @@ fail: Microsoft.AspNetCore.Server.Kestrel[13]
 
          at System.DateTimeParse.Parse(ReadOnlySpan`1 s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
 
-         at System.DateTime.Parse(String s)
+         at System.DateTime.Parse(String s)`
 
         
 
@@ -92,9 +92,9 @@ Why it is happening (root cause)
 
 This is causing the issue:
 
-System.FormatException: String '' was not recognized as a valid DateTime.
+`System.FormatException: String '' was not recognized as a valid DateTime.
 
-at System.DateTime.Parse(String s)
+at System.DateTime.Parse(String s)`
 
 
 
@@ -118,16 +118,14 @@ File need to change: src/SupportEngineerChallenge.Api/Endpoints/TaskEndpoints.cs
 
 
 Before:
-var createdAt = DateTime.Parse(clientTimestamp);
+`var createdAt = DateTime.Parse(clientTimestamp);`
 
 
 
 After:
-var createdAt = DateTime.TryParse(clientTimestamp, out var parsed)
-
+`var createdAt = DateTime.TryParse(clientTimestamp, out var parsed)
 ? parsed
-
-: DateTime.UtcNow;
+: DateTime.UtcNow;`
 
 
 
