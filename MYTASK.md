@@ -77,12 +77,12 @@ For the task list is slow for some users and duplicated user, I was not able to 
 
 ## 2) Root cause analysis
 
-**What is happening: 
+**What is happening:** 
 
 The API throws an exception error code 500 Internal Server error during task creation 
 
 
-**Why it is happening (root cause) 
+**Why it is happening (root cause)** 
 
 This is causing the issue:
 ```bash
@@ -92,7 +92,7 @@ at System.DateTime.Parse(String s)
 
 This means DateTime.Parse() is trying to parse an empty string. When the header is missing, the value becomes “” which throws error.
 
-**What you considered / ruled out (short)
+**What you considered / ruled out (short)**
 
 The following potential causes were investigated and ruled out:
 > From the logs clearly show the failure right away before database interaction
