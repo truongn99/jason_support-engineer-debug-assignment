@@ -12,25 +12,22 @@ Getting the app running by following the steps below and I was able to get the A
 
 
 Here are the steps:
-
+```bash
 dotnet restore
 dotnet run
+```
 
 
-API Swagger
+API Swagger: http://localhost:5000/swagger/index.html
 
-http://localhost:5000/swagger/index.html
-
-UI
-
-http://localhost:5000/
+UI:   http://localhost:5000/
 
 
 
 Run tests:
-
+```bash
 dotnet test
-
+```
 
 I have reproduced the issue that the task creation sometimes return error code http 500 internal server.
 
@@ -38,10 +35,7 @@ Below are the steps:
 
 
 
-Start the API Swagger by running this link in the browser:
-
-http://localhost:5000/swagger/index.html
-
+Start the API Swagger by running this link in the browser: http://localhost:5000/swagger/index.html
 
 
 Example request:
