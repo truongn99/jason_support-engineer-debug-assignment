@@ -153,5 +153,13 @@ If I had additional time, I would:
 
 Add automated tests covering missing or invalid headers
 Add database indexes to improve task listing performance
+
+<img width="994" height="251" alt="Error log" src="https://github.com/user-attachments/assets/f50f62e5-dcc8-4b77-bd22-0f719e317fa0" />
+<img width="1005" height="660" alt="201 return" src="https://github.com/user-attachments/assets/4a5417c1-a1f9-46e5-acde-1418732c7c80" />
+<img width="1018" height="639" alt="Reproduce 500 error" src="https://github.com/user-attachments/assets/768434da-7bac-44b7-b5f9-017ad1323fe5" />
+<img width="1028" height="244" alt="Test" src="https://github.com/user-attachments/assets/df7e078c-bb30-4602-8128-aac9ce029c8d" />
+<img width="1056" height="655" alt="Localhost" src="https://github.com/user-attachments/assets/758a2553-7d62-403d-bc8f-d69a837b4398" />
+<img width="1091" height="547" alt="Swagger" src="https://github.com/user-attachments/assets/38b8b12e-4aeb-4f80-9b92-dd2d225952e4" />
+
 Add monitoring/alerting for error rates and latency.
 
