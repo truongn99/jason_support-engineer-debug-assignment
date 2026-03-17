@@ -3,7 +3,7 @@ Issues confirmed and Fixed:
 Task creation returning HTTP 500
 
 
-1) Triage & reproduction
+## 1) Triage & reproduction
 
 Reproduction steps:
 
@@ -80,7 +80,7 @@ For the task list is slow for some users and duplicated user, I was not able to 
 
 .
 
-2) Root cause analysis
+## 2) Root cause analysis
 
 What is happening: 
 
@@ -110,7 +110,7 @@ The following potential causes were investigated and ruled out:
 > Network issue
 > Authentication or authorization errors 
 
-3) Fixes (keep them safe & minimal)
+## 3) Fixes (keep them safe & minimal)
 
 
 File need to change: src/SupportEngineerChallenge.Api/Endpoints/TaskEndpoints.cs
@@ -137,7 +137,7 @@ The above fix will handle the missing or empty header and invalid timestamp
 For the task 4, 5 and 6 please check the github link here:
 https://github.com/truongn99/jason_support-engineer-debug-assignment
 
-Tradeoffs
+## Tradeoffs
 
 For the timestamp parsing issue, I chose a defensive fallback (DateTime.UtcNow) rather than rejecting the request with a 400 error. This approach avoids breaking existing clients that may not provide the header while still preventing the service from returning HTTP 500 errors.
 
@@ -145,7 +145,7 @@ With more time, I would also review client expectations to determine whether the
 
 
 
-What I Would Do Next With More Time
+## What I Would Do Next With More Time
 
 If I had additional time, I would:
 
