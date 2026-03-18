@@ -19,8 +19,12 @@ dotnet run
 
 
 API Swagger: http://localhost:5000/swagger/index.html
+<img width="1091" height="547" alt="Swagger" src="https://github.com/user-attachments/assets/ca57c850-ad91-43c9-b5f0-5000ee7072ed" />
+
 
 UI:   http://localhost:5000/
+<img width="1056" height="655" alt="Localhost" src="https://github.com/user-attachments/assets/2d9b1336-70e1-4ca0-a192-abc40c89a5ca" />
+
 
 
 
@@ -30,6 +34,9 @@ dotnet test
 ```
 
 I have reproduced the issue that the task creation sometimes return error code http 500 internal server.
+<img width="1018" height="639" alt="Reproduce_500_error" src="https://github.com/user-attachments/assets/5dbc9ee6-6223-4bcf-80e7-2b80a4affd98" />
+
+
 
 Below are the steps:
 
